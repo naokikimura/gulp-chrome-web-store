@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- stable
+deploy:
+  provider: npm
+  email: n.kimura.cap@gmail.com
+  api_key:
+    secure: EweExnpzt6Rli+9HnvKnnpdbqsyaaZsWu+YfiL/lhi7sU3bPdtlExi18guPdSbSiDg0XPDGazGmjwLh3yG6qP7D/QhHujoFwhrV206nCLMY0LNHFXxhv0EWYGi+j5dff5QCgrgNXQtoyx5HzScJivIfL9zshlvjbktPQPQQWhDwQ9ycORgx7Xot5SOTg+DhDZ0K5+hD6IyHHEQaaPy6PpoHJSD0I8PBd2X+i5kIbE76DmHI8fS7ZnBvRC0zhMZjJ6oWK5QOetvoCBxADqXloCnKDqjUYETVA7OoCiSekHVumEsuQTgCL3cMK8zAW1hWTCf4DrqKVvsFvEBLV/9u0iyqQxa2h03VKHyMwXDON/89bKkHzElhP3tScOqeAvsxgVCxvu2CP6+8uE3vNGoDrE8qNe9AQIpgw+7K7YX5WGY9c8SiSYa44GKBp90MuPq9ze+QostEYg01NhYB8HNZb8fjCKVD4dYW6l9IBvitpv+Lj6YkRwVW7uuBmfSqGIPZhpPc1Kvw2gk0uDoGJIaqLNd67itpt4+cEjyD9+itRaL+QLduS9iaNE7A4hldBEGS5jv/o/5kDCHcfAwZ8/4yGfBZmKUlQ75zZwnCPO1ug+XD3o6g1LkOgR8gtJSLBi/PZNke6zi794kfccfK28SfjhkX/S6wqJFHalbxoVE772qA=
+  on:
+    tags: true
+    repo: naokikimura/gulp-chrome-web-store

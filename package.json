@@ -1,0 +1,40 @@
+{
+  "name": "gulp-chrome-web-store",
+  "version": "0.0.0",
+  "description": "Upload and publish items to the Chrome Web Store with Gulp",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "gulp test",
+    "prepare": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naokikimura/gulp-chrome-web-store.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "chrome-web-store"
+  ],
+  "author": "Naoki Kimura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naokikimura/gulp-chrome-web-store/issues"
+  },
+  "homepage": "https://github.com/naokikimura/gulp-chrome-web-store#readme",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.8",
+    "chai": "^4.2.0",
+    "gulp-mocha-thin": "0.0.4",
+    "gulp-tslint": "^8.1.4",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "mocha": "^7.0.0",
+    "ts-node": "^8.6.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.5"
+  }
+}
