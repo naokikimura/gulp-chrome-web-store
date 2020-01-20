@@ -1,5 +1,8 @@
+import PluginError from 'plugin-error';
 import stream from 'stream';
 import ChromeWebStoreAPI, { AccessTokenResponse, Credential, PublishTarget, UploadType } from './chrome-web-store';
+
+const PLUGIN_NAME = 'gulp-chrome-web-store';
 
 // tslint:disable: no-console
 export = function Plugin(
@@ -20,11 +23,11 @@ export = function Plugin(
             const result = await item.upload(vinyl.contents, uploadType);
             if (result.uploadState === 'FAILURE') {
               const message = (result.itemError || []).map(error => error.error_detail).join('\n');
-              throw new Error(message);
+              throw new PluginError(PLUGIN_NAME, message);
             }
             this.push(vinyl);
             return null;
-          }).then(callback).catch(callback);
+          }).then(callback).catch(error => callback(new PluginError(PLUGIN_NAME, error)));
         },
       });
     },
