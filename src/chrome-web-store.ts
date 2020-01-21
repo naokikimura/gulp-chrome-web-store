@@ -2,7 +2,9 @@ import { ClientRequest, IncomingMessage, RequestOptions } from 'http';
 import querystring from 'querystring';
 import stream from 'stream';
 import { URL } from 'url';
+import util from 'util';
 
+const debug = util.debuglog('chrome-web-store');
 const agent = undefined;
 
 function createRequest(url: string | URL, options: RequestOptions): ClientRequest {
@@ -11,6 +13,7 @@ function createRequest(url: string | URL, options: RequestOptions): ClientReques
 }
 
 function fetch(request: ClientRequest) {
+  debug(`${request.method} ${request.path} HTTP/1.1`);
   return new Promise<IncomingMessage>((resolve, reject) => {
     request.on('response', resolve).on('error', reject).end();
   });
@@ -42,7 +45,16 @@ type ResponseParseFunction<T> = (response: IncomingMessage) => Promise<T>;
 
 function ResponseParser<T>(condition: ResponseConditionFunction, parse: ResponseParseFunction<T>) {
   return function parseResponse(response: IncomingMessage) {
-    if (!condition(response)) throw new Error(response.statusMessage);
+    debug(`HTTP/${response.httpVersion} ${response.statusCode} ${response.statusMessage}`);
+    if (!condition(response)) {
+      throw new class extends Error {
+        public readonly response: IncomingMessage;
+        constructor(message: IncomingMessage) {
+          super(response.statusMessage);
+          this.response = message;
+        }
+      }(response);
+    }
     return parse(response);
   };
 }
@@ -197,9 +209,9 @@ export default class ChromeWebStoreAPI {
           headers: {
             'Authorization': `Bearer ${access_token}`,
             'Content-Length': 0,
-            'method': 'POST',
             'x-goog-api-version': 2,
           },
+          method: 'POST',
         });
         return fetch(request).then(ResponseParser<PublishItemResult>(isSuccessful, toJSON));
       }

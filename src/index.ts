@@ -9,7 +9,7 @@ export = function Plugin(
   id: string,
   credential: string | Credential,
   accessTokenResponse: string | AccessTokenResponse,
-  ) {
+) {
   const api = new ChromeWebStoreAPI(
     typeof credential === 'string' ? JSON.parse(credential) : credential,
     typeof accessTokenResponse === 'string' ? JSON.parse(accessTokenResponse) : accessTokenResponse,
@@ -32,9 +32,13 @@ export = function Plugin(
       });
     },
     async publish(publishTarget: PublishTarget = 'default') {
-      const item = new api.Item(id);
-      const result = await item.publish(publishTarget);
-      (result.statusDetail || []).forEach(detail => console.log(detail));
+      try {
+        const item = new api.Item(id);
+        const result = await item.publish(publishTarget);
+        (result.statusDetail || []).forEach(detail => console.log(detail));
+      } catch (error) {
+        throw new PluginError(PLUGIN_NAME, error);
+      }
     },
   };
 };
