@@ -1,6 +1,6 @@
+import ChromeWebStoreAPI, { AccessTokenResponse, Credential, PublishTarget, UploadType } from 'chrome-web-store-api';
 import PluginError from 'plugin-error';
 import stream from 'stream';
-import ChromeWebStoreAPI, { AccessTokenResponse, Credential, PublishTarget, UploadType } from './chrome-web-store';
 
 const PLUGIN_NAME = 'gulp-chrome-web-store';
 
