@@ -1,28 +1,34 @@
 const gulp = require('gulp');
 
+function spawn(command, args = [], options) {
+  const child = require('child_process')
+    .spawn(command, args.filter(e => e === 0 || e), options);
+  if (child.stdout) child.stdout.pipe(process.stdout);
+  if (child.stderr) child.stderr.pipe(process.stderr);
+  return child;
+}
+
 const sources = {
   typescript: 'src/**/*.{j,t}s{,x}',
 };
 const sourcemaps = true;
 
 exports['transpile:tsc'] = function tsc() {
-  const ts = require('gulp-typescript');
-  return gulp.src(sources.typescript, { sourcemaps })
-    .pipe(ts.createProject('tsconfig.json')())
-    .pipe(gulp.dest('dist', { sourcemaps } ));
+  const options = ['--pretty', sourcemaps ? '--sourceMap' : undefined];
+  return spawn('tsc', options);
 }
 
-exports['lint:tslint'] = function tslint() {
-  const tslint = require('gulp-tslint');
-  return gulp.src(sources.typescript)
-    .pipe(tslint())
-    .pipe(tslint.report());
+exports['lint:eslint'] = function tslint() {
+  const options = ['.', '--ext', '.js,.jsx,.ts,.tsx']
+    .concat(process.env.CI ? ['-f', 'junit', '-o', './reports/eslint/test-results.xml'] : []);
+  return spawn('eslint', options);
 }
 
 exports['test:mocha'] = function mocha() {
-  const mocha = require('gulp-mocha-thin');
-  return gulp.src('./test/**/*.spec.{j,t}s')
-    .pipe(mocha());
+  const options = process.env.CI
+    ? ['-R', 'xunit', '-O', 'output=./reports/mocha/test-results.xml']
+    : ['-c'];
+  return spawn('mocha', options);
 }
 
 exports['watch:typescript'] = function watchTypeScript() {
@@ -31,7 +37,7 @@ exports['watch:typescript'] = function watchTypeScript() {
 }
 
 exports.transpile = gulp.parallel(exports['transpile:tsc']);
-exports.lint = gulp.parallel(exports['lint:tslint']);
+exports.lint = gulp.parallel(exports['lint:eslint']);
 exports.build = gulp.parallel(exports.transpile);
 exports.default = exports.build;
 exports.test = gulp.parallel(exports['test:mocha']);
