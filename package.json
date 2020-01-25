@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/naokikimura/gulp-chrome-web-store#readme",
   "dependencies": {
-    "chrome-web-store-api": "^0.0.3",
+    "chrome-web-store-api": "^0.0.4",
     "gulp": "^4.0.2"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.8",
+    "@types/node": "^13.5.0",
     "chai": "^4.2.0",
     "gulp-mocha-thin": "0.0.4",
     "gulp-tslint": "^8.1.4",

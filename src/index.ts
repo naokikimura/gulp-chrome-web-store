@@ -1,4 +1,4 @@
-import ChromeWebStoreAPI, { AccessTokenResponse, Credential, PublishTarget, UploadType } from 'chrome-web-store-api';
+import ChromeWebStore, { AccessTokenResponse, Credential, PublishTarget, UploadType } from 'chrome-web-store-api';
 import PluginError from 'plugin-error';
 import stream from 'stream';
 
@@ -9,18 +9,18 @@ export = function Plugin(
   credential: string | Credential,
   accessTokenResponse: string | AccessTokenResponse,
 ) {
-  const api = new ChromeWebStoreAPI(
+  const chromeWebStore = new ChromeWebStore(
     typeof credential === 'string' ? JSON.parse(credential) : credential,
     typeof accessTokenResponse === 'string' ? JSON.parse(accessTokenResponse) : accessTokenResponse,
   );
-  return new class ChromeWebStore {
+  return new class {
     public item(id: string) {
       return {
         upload(uploadType: UploadType = '') {
           return new stream.Transform({
             objectMode: true,
             transform(vinyl, encoding, callback) {
-              api.Item.fetch(id).then(async item => {
+              Promise.resolve(new chromeWebStore.Item(id)).then(async item => {
                 const result = await item.upload(vinyl.contents, uploadType);
                 if (result.uploadState === 'FAILURE') {
                   const message = (result.itemError || []).map(error => error.error_detail).join('\n');
@@ -34,7 +34,7 @@ export = function Plugin(
         },
         async publish(publishTarget: PublishTarget = 'default') {
           try {
-            const item = new api.Item(id);
+            const item = new chromeWebStore.Item(id);
             const result = await item.publish(publishTarget);
             (result.statusDetail || []).forEach(detail => console.log(detail));
           } catch (error) {
