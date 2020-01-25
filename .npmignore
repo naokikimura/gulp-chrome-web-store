@@ -103,9 +103,12 @@ typings/
 # TernJS port file
 .tern-port
 
-.vscode
+.circleci/
+.vscode/
+.eslintignore
+.eslintrc.js
 .mocharc.js
 .travis.yml
 gulpfile.js
 tsconfig.json
-tslint.json
+reports/
