@@ -57,7 +57,7 @@ For example:
 const gulp = require('gulp')
 const chromeWebStore = require('gulp-chrome-web-store')(
     process.env.CHROME_WEB_STORE_API_CREDENTIAL,
-    process.evn.CHROME_WEB_STORE_API_ACCESS_TOKEN_RESPONSE,
+    process.env.CHROME_WEB_STORE_API_ACCESS_TOKEN_RESPONSE,
 );
 const itemId = 'ID of your Chrome extension';
 const item = chromeWebStore.item(itemId);
