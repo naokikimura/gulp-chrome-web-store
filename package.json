@@ -23,7 +23,7 @@
   "homepage": "https://github.com/naokikimura/gulp-chrome-web-store#readme",
   "dependencies": {
     "chrome-web-store-api": "^0.0.4",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "plugin-error": "^1.0.1"
   },
   "devDependencies": {
