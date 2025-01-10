@@ -19,7 +19,7 @@ exports['transpile:tsc'] = function tsc() {
 }
 
 exports['lint:eslint'] = function tslint() {
-  const options = ['.', '--ext', '.js,.jsx,.ts,.tsx']
+  const options = ['.']
     .concat(process.env.CI ? ['-f', 'junit', '-o', './reports/eslint/test-results.xml'] : []);
   return spawn('eslint', options);
 }

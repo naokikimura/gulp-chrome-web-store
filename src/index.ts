@@ -38,7 +38,11 @@ export = function Plugin(
             const result = await item.publish(publishTarget);
             (result.statusDetail || []).forEach(detail => console.log(detail));
           } catch (error) {
-            throw new PluginError(PLUGIN_NAME, error);
+            if (error instanceof Error) {
+              throw new PluginError(PLUGIN_NAME, error);
+            } else {
+              throw error;
+            }
           }
         },
       };
